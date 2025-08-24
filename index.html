@@ -1518,7 +1518,7 @@
         }
 
         // ====== Wallet utils ======
-        const WALLETCONNECT_PROJECT_ID = 'YOUR_PROJECT_ID'; // Replace with your WalletConnect Cloud projectId
+        let WALLETCONNECT_PROJECT_ID = 'YOUR_PROJECT_ID'; // Replace or pass via localStorage 'wc_project_id' or ?wc=YOUR_ID
 
         function hexToEthString(hexWei) {
             try {
@@ -1545,6 +1545,27 @@
             }
         }
 
+        function pickInjectedProvider(preferred) {
+            const eth = window.ethereum;
+            if (!eth) return null;
+            // Multiple providers scenario
+            const providers = Array.isArray(eth?.providers) ? eth.providers : [eth];
+            if (preferred === 'metamask') {
+                const mm = providers.find(p => p?.isMetaMask);
+                if (mm) return mm;
+            }
+            if (preferred === 'coinbase') {
+                const cb = providers.find(p => p?.isCoinbaseWallet || p?.isCoinbaseBrowser);
+                if (cb) return cb;
+            }
+            if (preferred === 'trust') {
+                const tw = providers.find(p => p?.isTrust || p?.isTrustWallet);
+                if (tw) return tw;
+            }
+            // Fallback to first
+            return providers[0] || null;
+        }
+
         async function connectInjected(context, walletTypeLabel) {
             if (typeof window.ethereum === 'undefined') {
                 alert(i18n.t('common.alerts.metamaskMissing'));
@@ -1552,13 +1573,30 @@
                 return;
             }
             try {
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const provider = pickInjectedProvider(walletTypeLabel);
+                if (!provider) throw new Error('No injected provider found');
+                const accounts = await provider.request({ method: 'eth_requestAccounts' });
                 const account = accounts[0];
-                const balanceHex = await window.ethereum.request({ method: 'eth_getBalance', params: [account, 'latest'] });
-                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                const balanceHex = await provider.request({ method: 'eth_getBalance', params: [account, 'latest'] });
+                const chainId = await provider.request({ method: 'eth_chainId' });
                 const balanceStr = hexToEthString(balanceHex);
                 const networkName = getNetworkName(chainId);
                 updateWalletUI(context, account, balanceStr, networkName);
+                // Listen for changes
+                provider.removeAllListeners?.();
+                provider.on?.('accountsChanged', async (accs) => {
+                    const addr = accs?.[0];
+                    if (!addr) return;
+                    const balHex = await provider.request({ method: 'eth_getBalance', params: [addr, 'latest'] });
+                    updateWalletUI(context, addr, hexToEthString(balHex), getNetworkName(await provider.request({ method: 'eth_chainId' }))); 
+                });
+                provider.on?.('chainChanged', async (cid) => {
+                    const accs = await provider.request({ method: 'eth_accounts' });
+                    const addr = accs?.[0];
+                    if (!addr) return;
+                    const balHex = await provider.request({ method: 'eth_getBalance', params: [addr, 'latest'] });
+                    updateWalletUI(context, addr, hexToEthString(balHex), getNetworkName(cid));
+                });
                 alert(i18n.t('common.alerts.walletConnected'));
             } catch (err) {
                 console.error(err);
@@ -1567,9 +1605,19 @@
         }
 
         async function connectWalletConnect(context) {
-            if (!window.EthereumProvider || WALLETCONNECT_PROJECT_ID === 'YOUR_PROJECT_ID') {
-                alert(i18n.t('common.alerts.wcMissing'));
-                return;
+            // Allow runtime configuration via URL or localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const pidFromUrl = urlParams.get('wc');
+            const pidFromLs = localStorage.getItem('wc_project_id');
+            if (pidFromUrl) { WALLETCONNECT_PROJECT_ID = pidFromUrl; localStorage.setItem('wc_project_id', pidFromUrl); }
+            if (pidFromLs && WALLETCONNECT_PROJECT_ID === 'YOUR_PROJECT_ID') WALLETCONNECT_PROJECT_ID = pidFromLs;
+            if (!window.EthereumProvider || !WALLETCONNECT_PROJECT_ID || WALLETCONNECT_PROJECT_ID === 'YOUR_PROJECT_ID') {
+                const entered = typeof window.prompt === 'function' ? window.prompt('Enter WalletConnect projectId (from cloud.walletconnect.com):', '') : '';
+                if (entered && entered.length >= 8) { WALLETCONNECT_PROJECT_ID = entered; localStorage.setItem('wc_project_id', entered); }
+                if (!window.EthereumProvider || !WALLETCONNECT_PROJECT_ID || WALLETCONNECT_PROJECT_ID === 'YOUR_PROJECT_ID') {
+                    alert(i18n.t('common.alerts.wcMissing'));
+                    return;
+                }
             }
             try {
                 const provider = await window.EthereumProvider.init({
@@ -1585,6 +1633,22 @@
                 const balanceStr = hexToEthString(balanceHex);
                 const networkName = getNetworkName(chainId);
                 updateWalletUI(context, account, balanceStr, networkName);
+                // Listeners
+                provider.on('accountsChanged', async (accs) => {
+                    const addr = accs?.[0];
+                    if (!addr) return;
+                    const balHex = await provider.request({ method: 'eth_getBalance', params: [addr, 'latest'] });
+                    updateWalletUI(context, addr, hexToEthString(balHex), getNetworkName(await provider.request({ method: 'eth_chainId' }))); 
+                });
+                provider.on('chainChanged', async (cid) => {
+                    const accs = await provider.request({ method: 'eth_accounts' });
+                    const addr = accs?.[0];
+                    if (!addr) return;
+                    const balHex = await provider.request({ method: 'eth_getBalance', params: [addr, 'latest'] });
+                    updateWalletUI(context, addr, hexToEthString(balHex), getNetworkName(cid));
+                });
+                // Save instance globally to support disconnect
+                window.__wcProvider = provider;
                 alert(i18n.t('common.alerts.walletConnected'));
             } catch (e) {
                 console.error(e);
@@ -1620,11 +1684,7 @@
             langSelect.addEventListener('change', (e) => setLang(e.target.value));
             document.getElementById('yearCopy').textContent = new Date().getFullYear();
 
-            // Hide WC buttons if not configured
-            const wcConfigured = !!window.EthereumProvider && WALLETCONNECT_PROJECT_ID !== 'YOUR_PROJECT_ID';
-            if (!wcConfigured) {
-                document.querySelectorAll('#homeWcBtn,#walletPageWcBtn,#airdropWcBtn').forEach(btn => { if (btn) btn.style.display = 'none'; });
-            }
+            // Keep WC buttons visible; we will prompt for projectId if missing
 
             const navLinks = document.querySelectorAll('.nav-link');
             const pages = document.querySelectorAll('.page');
@@ -1695,9 +1755,10 @@
                 alert(i18n.t('common.alerts.airdropOk'));
             });
             
-            document.getElementById('disconnectWallet')?.addEventListener('click', function() {
+            document.getElementById('disconnectWallet')?.addEventListener('click', async function() {
                 document.getElementById('walletInfo').style.display = 'none';
                 document.querySelectorAll('.wallet-card').forEach(c => { c.style.borderColor = 'rgba(255, 255, 255, 0.1)'; });
+                try { await window.__wcProvider?.disconnect?.(); } catch (e) { /* ignore */ }
                 alert(i18n.t('common.alerts.walletDisconnected'));
             });
             
