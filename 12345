@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CryptoRichLife - Премиум заработок в криптовалюте</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@walletconnect/web3-provider/dist/umd/index.min.js"></script>
+    <script src="https://unpkg.com/web3modal/dist/index.js"></script>
     <style>
         :root {
             --main-bg: #0a0a1a;
@@ -98,6 +100,21 @@
         
         .nav-links a.active:after {
             width: 100%;
+        }
+        
+        /* Переключатель языка */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .lang-switcher select {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
         }
         
         /* Основной контент */
@@ -717,12 +734,20 @@
         <nav class="nav">
             <div class="logo">CryptoRichLife</div>
             <div class="nav-links">
-                <a href="#" class="nav-link active" data-page="home">Главная</a>
-                <a href="#" class="nav-link" data-page="earn">Заработок</a>
-                <a href="#" class="nav-link" data-page="reviews">Отзывы</a>
-                <a href="#" class="nav-link" data-page="wallet">Кошелек</a>
-                <a href="#" class="nav-link" data-page="airdrop">Аирдроп</a>
-                <a href="#" class="nav-link" data-page="contact">Контакты</a>
+                <a href="#" class="nav-link active" data-i18n="nav.home" data-page="home">Главная</a>
+                <a href="#" class="nav-link" data-i18n="nav.earn" data-page="earn">Заработок</a>
+                <a href="#" class="nav-link" data-i18n="nav.reviews" data-page="reviews">Отзывы</a>
+                <a href="#" class="nav-link" data-i18n="nav.wallet" data-page="wallet">Кошелек</a>
+                <a href="#" class="nav-link" data-i18n="nav.airdrop" data-page="airdrop">Аирдроп</a>
+                <a href="#" class="nav-link" data-i18n="nav.contact" data-page="contact">Контакты</a>
+                <div class="lang-switcher">
+                    <select id="languageSelect" aria-label="Language">
+                        <option value="ru">RU</option>
+                        <option value="en">EN</option>
+                        <option value="es">ES</option>
+                        <option value="sw">SW</option>
+                    </select>
+                </div>
             </div>
         </nav>
     </header>
@@ -751,92 +776,92 @@
                 </div>
                 
                 <div class="hero-content">
-                    <h1>Премиум жизнь с криптовалютой</h1>
-                    <p>Зарабатывайте на криптовалюте и получите доступ к эксклюзивному образу жизни, о котором вы всегда мечтали.</p>
-                    <a href="#" class="btn" data-page="earn">Начать зарабатывать</a>
+                    <h1 data-i18n="home.hero.title">Премиум жизнь с криптовалютой</h1>
+                    <p data-i18n="home.hero.subtitle">Зарабатывайте на криптовалюте и получите доступ к эксклюзивному образу жизни, о котором вы всегда мечтали.</p>
+                    <a href="#" class="btn" data-page="earn" data-i18n="home.hero.cta">Начать зарабатывать</a>
                 </div>
             </div>
 
             <!-- Аирдроп на главной -->
             <div class="airdrop-banner">
-                <h2>Аирдроп: Получите 50 USDT за регистрацию!</h2>
-                <p>Присоединяйтесь к нашей программе и получите бесплатные USDT за выполнение простых заданий</p>
+                <h2 data-i18n="home.airdrop.title">Аирдроп: Получите 50 USDT за регистрацию!</h2>
+                <p data-i18n="home.airdrop.subtitle">Присоединяйтесь к нашей программе и получите бесплатные USDT за выполнение простых заданий</p>
                 
                 <div class="airdrop-timer">
-                    До конца акции: <span id="homeCountdown">23:59:59</span>
+                    <span data-i18n="airdrop.countdownLabel">До конца акции:</span> <span id="homeCountdown">23:59:59</span>
                 </div>
                 
                 <div class="airdrop-progress">
                     <div class="airdrop-progress-bar"></div>
                 </div>
-                <p>65% токенов уже распределено</p>
+                <p data-i18n="airdrop.progressText">65% токенов уже распределено</p>
                 
                 <div class="wallet-connect-section">
-                    <p>Для участия подключите ваш кошелек</p>
-                    <button class="btn" id="connectWalletBtn">Подключить MetaMask</button>
+                    <p data-i18n="wallet.connectPrompt">Для участия подключите ваш кошелек</p>
+                    <button class="btn" id="connectWalletBtn" data-i18n="wallet.connectMetaMask">Подключить MetaMask</button>
                 </div>
                 
                 <div class="wallet-connected" id="walletConnected">
-                    <h3>Кошелек подключен!</h3>
+                    <h3 data-i18n="wallet.connected">Кошелек подключен!</h3>
                     <div class="wallet-info">
-                        <p>Адрес: <span id="walletAddress"></span></p>
-                        <p>Баланс: <span id="walletBalance"></span></p>
-                        <p>Сеть: <span id="walletNetwork"></span></p>
+                        <p><span data-i18n="wallet.address">Адрес:</span> <span id="walletAddress"></span></p>
+                        <p><span data-i18n="wallet.balance">Баланс:</span> <span id="walletBalance"></span></p>
+                        <p><span data-i18n="wallet.network">Сеть:</span> <span id="walletNetwork"></span></p>
                     </div>
-                    <button class="btn" id="claimAirdropBtn">Получить 50 USDT</button>
+                    <button class="btn" id="claimAirdropBtn" data-i18n="airdrop.claim">Получить 50 USDT</button>
                 </div>
             </div>
 
             <section class="features">
-                <h2 class="section-title">Наши возможности</h2>
+                <h2 class="section-title" data-i18n="home.features.title">Наши возможности</h2>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-coins"></i>
                         </div>
-                        <h3>Премиум стейкинг</h3>
-                        <p>Получайте до 45% годовых с нашими эксклюзивными предложениями по стейкингу для избранных клиентов.</p>
+                        <h3 data-i18n="home.features.staking.title">Премиум стейкинг</h3>
+                        <p data-i18n="home.features.staking.desc">Получайте до 45% годовых с нашими эксклюзивными предложениями по стейкингу для избранных клиентов.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-server"></i>
                         </div>
-                        <h3>Элитный майнинг</h3>
-                        <p>Доступ к эксклюзивным майнинг-пулам с минимальной комиссией и максимальной доходностью.</p>
+                        <h3 data-i18n="home.features.mining.title">Элитный майнинг</h3>
+                        <p data-i18n="home.features.mining.desc">Доступ к эксклюзивным майнинг-пулам с минимальной комиссией и максимальной доходностью.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
-                        <h3>VIP трейдинг</h3>
-                        <p>Эксклюзивные торговые сигналы и стратегии от лучших трейдеров с многолетним опытом.</p>
+                        <h3 data-i18n="home.features.trading.title">VIP трейдинг</h3>
+                        <p data-i18n="home.features.trading.desc">Эксклюзивные торговые сигналы и стратегии от лучших трейдеров с многолетним опытом.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-sync-alt"></i>
                         </div>
-                        <h3>Арбитраж</h3>
-                        <p>Автоматический арбитраж между биржами с доходностью до 3% в день.</p>
+                        <h3 data-i18n="home.features.arb.title">Арбитраж</h3>
+                        <p data-i18n="home.features.arb.desc">Автоматический арбитраж между биржами с доходностью до 3% в день.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-piggy-bank"></i>
                         </div>
-                        <h3>Сберегательные счета</h3>
-                        <p>Высокие проценты на крипто-депозиты с ежедневной капитализацией.</p>
+                        <h3 data-i18n="home.features.savings.title">Сберегательные счета</h3>
+                        <p data-i18n="home.features.savings.desc">Высокие проценты на крипто-депозиты с ежедневной капитализацией.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-hand-holding-usd"></i>
                         </div>
-                        <h3>Кредитование</h3>
-                        <p>Зарабатывайте на процентах, предоставляя кредиты другим трейдерам.</p>
+                        <h3 data-i18n="home.features.lending.title">Кредитование</h3>
+                        <p data-i18n="home.features.lending.desc">Зарабатывайте на процентах, предоставляя кредиты другим трейдерам.</p>
                     </div>
                 </div>
             </section>
 
             <section class="luxury-life">
-                <h2 class="section-title">Жизнь мечты</h2>
+                <h2 class="section-title" data-i18n="home.luxury.title">Жизнь мечты</h2>
                 <div class="luxury-grid">
                     <div class="luxury-item">
                         <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800" alt="Роскошная вилла" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect fill=\'%2300f0ff\' width=\'800\' height=\'600\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EРоскошная вилла%3C/text%3E%3C/svg%3E'">
@@ -888,13 +913,13 @@
         <section id="earn" class="page">
             <div class="hero">
                 <div class="hero-content">
-                    <h1>Способы заработка</h1>
-                    <p>Выберите подходящий для вас метод заработка криптовалюты и начните свой путь к финансовой свободе.</p>
+                    <h1 data-i18n="earn.title">Способы заработка</h1>
+                    <p data-i18n="earn.subtitle">Выберите подходящий для вас метод заработка криптовалюты и начните свой путь к финансовой свободе.</p>
                 </div>
             </div>
 
             <section class="features">
-                <h2 class="section-title">Доступные методы</h2>
+                <h2 class="section-title" data-i18n="earn.methods.title">Доступные методы</h2>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -966,12 +991,12 @@
             </section>
 
             <section class="form-container">
-                <h2 class="section-title">Выбор метода заработка</h2>
+                <h2 class="section-title" data-i18n="earn.form.title">Выбор метода заработка</h2>
                 <form id="earnForm">
                     <div class="form-group">
-                        <label for="earnMethod">Выберите метод заработка:</label>
+                        <label for="earnMethod" data-i18n="earn.form.methodLabel">Выберите метод заработка:</label>
                         <select id="earnMethod" required>
-                            <option value="">-- Выберите метод --</option>
+                            <option value="" data-i18n="earn.form.choose">-- Выберите метод --</option>
                             <option value="staking">Стейкинг (от 1000 USDT)</option>
                             <option value="mining">Майнинг (от 500 USDT)</option>
                             <option value="trading">Трейдинг (от 200 USDT)</option>
@@ -981,13 +1006,13 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="investment">Сумма инвестиций (USDT):</label>
+                        <label for="investment" data-i18n="earn.form.amountLabel">Сумма инвестиций (USDT):</label>
                         <input type="number" id="investment" min="100" step="50" required>
                     </div>
                     <div class="form-group">
-                        <label for="walletType">Тип кошелька:</label>
+                        <label for="walletType" data-i18n="earn.form.walletLabel">Тип кошелька:</label>
                         <select id="walletType" required>
-                            <option value="">-- Выберите кошелек --</option>
+                            <option value="" data-i18n="earn.form.chooseWallet">-- Выберите кошелек --</option>
                             <option value="metamask">MetaMask</option>
                             <option value="trust">Trust Wallet</option>
                             <option value="binance">Binance Chain Wallet</option>
@@ -999,7 +1024,7 @@
                             <option value="other">Другой</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn">Начать зарабатывать</button>
+                    <button type="submit" class="btn" data-i18n="earn.form.submit">Начать зарабатывать</button>
                 </form>
             </section>
         </section>
@@ -1008,13 +1033,13 @@
         <section id="reviews" class="page">
             <div class="hero">
                 <div class="hero-content">
-                    <h1>Отзывы клиентов</h1>
-                    <p>Реальные истории успеха наших клиентов со всего мира, которые уже достигли финансовой свободы.</p>
+                    <h1 data-i18n="reviews.title">Отзывы клиентов</h1>
+                    <p data-i18n="reviews.subtitle">Реальные истории успеха наших клиентов со всего мира, которые уже достигли финансовой свободы.</p>
                 </div>
             </div>
 
             <section class="features">
-                <h2 class="section-title">Истории успеха</h2>
+                <h2 class="section-title" data-i18n="reviews.successStories">Истории успеха</h2>
                 <div class="features-grid">
                     <div class="review-card">
                         <div class="review-header">
@@ -1340,40 +1365,95 @@
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                         </div>
                     </div>
+
+                    <!-- Дополнительные отзывы с фото -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop" alt="Aisha" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%2300f0ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EAisha%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Aisha, 30 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Найроби, Кения
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"Стейкинг дал мне стабильный пассивный доход. С 1500 USDT я получаю около 120 USDT в месяц и планирую увеличить вложения."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=800&auto=format&fit=crop" alt="Diego" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%235773ff\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EDiego%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Диего, 28 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Мехико, Мексика
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"С помощью арбитража и советов команды я удвоил депозит за 7 месяцев. Интерфейс простой, поддержка отвечает быстро."</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop" alt="Emily" class="review-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'500\' viewBox=\'0 0 500 500\'%3E%3Crect fill=\'%23ff00c8\' width=\'500\' height=\'500\'/%3E%3Ctext fill=\'%23ffffff\' font-family=\'Arial\' font-size=\'30\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\'%3EEmily%3C/text%3E%3C/svg%3E'">
+                            <div class="review-info">
+                                <h3>Эмили, 26 лет</h3>
+                                <div class="review-country">
+                                    <i class="fas fa-map-marker-alt"></i> Лондон, Великобритания
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"NFT-инвестиции с вашей аналитикой оказались удачными. Прибыль 180% за полгода. Очень вдохновляет!"</p>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <section class="form-container">
-                <h2 class="section-title">Оставьте свой отзыв</h2>
+                <h2 class="section-title" data-i18n="reviews.form.title">Оставьте свой отзыв</h2>
                 <form id="reviewForm">
                     <div class="form-group">
-                        <label for="userName">Ваше имя:</label>
+                        <label for="userName" data-i18n="reviews.form.name">Ваше имя:</label>
                         <input type="text" id="userName" required>
                     </div>
                     <div class="form-group">
-                        <label for="userAge">Ваш возраст:</label>
+                        <label for="userAge" data-i18n="reviews.form.age">Ваш возраст:</label>
                         <input type="number" id="userAge" min="18" max="100" required>
                     </div>
                     <div class="form-group">
-                        <label for="userCountry">Ваша страна:</label>
+                        <label for="userCountry" data-i18n="reviews.form.country">Ваша страна:</label>
                         <input type="text" id="userCountry" required>
                     </div>
                     <div class="form-group">
-                        <label for="userExperience">Ваш опыт заработка:</label>
+                        <label for="userExperience" data-i18n="reviews.form.experience">Ваш опыт заработка:</label>
                         <textarea id="userExperience" rows="5" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="userRating">Оценка:</label>
+                        <label for="userRating" data-i18n="reviews.form.rating">Оценка:</label>
                         <select id="userRating" required>
-                            <option value="">-- Выберите оценку --</option>
-                            <option value="5">5 звезд</option>
-                            <option value="4">4 звезды</option>
-                            <option value="3">3 звезды</option>
-                            <option value="2">2 звезды</option>
-                            <option value="1">1 звезда</option>
+                            <option value="" data-i18n="reviews.form.chooseRating">-- Выберите оценку --</option>
+                            <option value="5" data-i18n="reviews.form.stars5">5 звезд</option>
+                            <option value="4" data-i18n="reviews.form.stars4">4 звезды</option>
+                            <option value="3" data-i18n="reviews.form.stars3">3 звезды</option>
+                            <option value="2" data-i18n="reviews.form.stars2">2 звезды</option>
+                            <option value="1" data-i18n="reviews.form.stars1">1 звезда</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn">Отправить отзыв</button>
+                    <button type="submit" class="btn" data-i18n="reviews.form.submit">Отправить отзыв</button>
                 </form>
             </section>
         </section>
@@ -1382,13 +1462,13 @@
         <section id="wallet" class="page">
             <div class="hero">
                 <div class="hero-content">
-                    <h1>Подключение кошелька</h1>
-                    <p>Подключите ваш криптокошелек для начала работы с нашей платформой.</p>
+                    <h1 data-i18n="wallet.title">Подключение кошелька</h1>
+                    <p data-i18n="wallet.subtitle">Подключите ваш криптокошелек для начала работы с нашей платформой.</p>
                 </div>
             </div>
 
             <section class="features">
-                <h2 class="section-title">Поддерживаемые кошельки</h2>
+                <h2 class="section-title" data-i18n="wallet.supported">Поддерживаемые кошельки</h2>
                 <div class="wallets-grid">
                     <div class="wallet-card" data-wallet="metamask">
                         <div class="wallet-icon">
@@ -1442,21 +1522,21 @@
             </section>
 
             <section class="form-container">
-                <h2 class="section-title">Подключение кошелька</h2>
+                <h2 class="section-title" data-i18n="wallet.connect">Подключение кошелька</h2>
                 <div class="form-group">
-                    <label>Выберите способ подключения:</label>
+                    <label data-i18n="wallet.chooseMethod">Выберите способ подключения:</label>
                     <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
-                        <button class="btn wallet-connect-btn" data-wallet="metamask" style="flex: 1; min-width: 120px;">MetaMask</button>
-                        <button class="btn wallet-connect-btn" data-wallet="walletconnect" style="flex: 1; min-width: 120px;">WalletConnect</button>
+                        <button class="btn wallet-connect-btn" data-wallet="metamask" style="flex: 1; min-width: 120px;" data-i18n="wallet.metamask">MetaMask</button>
+                        <button class="btn wallet-connect-btn" data-wallet="walletconnect" style="flex: 1; min-width: 120px;" data-i18n="wallet.walletconnect">WalletConnect</button>
                     </div>
                 </div>
                 
                 <div id="walletInfo" style="display: none; margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px;">
-                    <h3>Информация о кошельке</h3>
-                    <p>Адрес: <span id="walletPageAddress"></span></p>
-                    <p>Баланс: <span id="walletPageBalance"></span></p>
-                    <p>Сеть: <span id="walletPageNetwork"></span></p>
-                    <button class="btn" style="margin-top: 15px;" id="disconnectWallet">Отключить кошелек</button>
+                    <h3 data-i18n="wallet.info">Информация о кошельке</h3>
+                    <p><span data-i18n="wallet.address">Адрес:</span> <span id="walletPageAddress"></span></p>
+                    <p><span data-i18n="wallet.balance">Баланс:</span> <span id="walletPageBalance"></span></p>
+                    <p><span data-i18n="wallet.network">Сеть:</span> <span id="walletPageNetwork"></span></p>
+                    <button class="btn" style="margin-top: 15px;" id="disconnectWallet" data-i18n="wallet.disconnect">Отключить кошелек</button>
                 </div>
             </section>
         </section>
@@ -1465,28 +1545,28 @@
         <section id="airdrop" class="page">
             <div class="hero">
                 <div class="hero-content">
-                    <h1>Аирдроп программа</h1>
-                    <p>Получите бесплатные USDT за регистрацию и выполнение простых заданий!</p>
+                    <h1 data-i18n="airdrop.title">Аирдроп программа</h1>
+                    <p data-i18n="airdrop.subtitle">Получите бесплатные USDT за регистрацию и выполнение простых заданий!</p>
                 </div>
             </div>
 
             <section class="airdrop-section">
-                <h2 class="section-title">Получите 50 USDT за регистрацию</h2>
+                <h2 class="section-title" data-i18n="airdrop.get50">Получите 50 USDT за регистрацию</h2>
                 
                 <div class="airdrop-timer">
-                    До конца акции: <span id="countdown">23:59:59</span>
+                    <span data-i18n="airdrop.countdownLabel">До конца акции:</span> <span id="countdown">23:59:59</span>
                 </div>
                 
                 <div class="airdrop-progress">
                     <div class="airdrop-progress-bar"></div>
                 </div>
-                <p>65% токенов уже распределено</p>
+                <p data-i18n="airdrop.progressText">65% токенов уже распределено</p>
                 
                 <div class="form-container">
-                    <h3>Участвуйте в аирдропе</h3>
+                    <h3 data-i18n="airdrop.participate">Участвуйте в аирдропе</h3>
                     
                     <div id="connectWalletAirdrop">
-                        <p>Для участия в аирдропе подключите ваш кошелек</p>
+                        <p data-i18n="airdrop.connectPrompt">Для участия в аирдропе подключите ваш кошелек</p>
                         <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
                             <button class="btn wallet-connect-btn" data-wallet="metamask" style="flex: 1; min-width: 120px;">MetaMask</button>
                             <button class="btn wallet-connect-btn" data-wallet="trust" style="flex: 1; min-width: 120px;">Trust Wallet</button>
@@ -1497,49 +1577,49 @@
                     <div id="walletConnectedAirdrop" style="display: none;">
                         <div style="text-align: center; padding: 20px; background: rgba(0,240,255,0.1); border-radius: 15px; margin: 20px 0;">
                             <i class="fas fa-check-circle" style="color: var(--accent); font-size: 3em; margin-bottom: 15px;"></i>
-                            <h3>Кошелек подключен!</h3>
-                            <p>Адрес: <span id="airdropWalletAddress"></span></p>
+                            <h3 data-i18n="wallet.connected">Кошелек подключен!</h3>
+                            <p><span data-i18n="wallet.address">Адрес:</span> <span id="airdropWalletAddress"></span></p>
                         </div>
                         
                         <div class="form-group">
-                            <label for="airdropEmail">Ваш Email:</label>
+                            <label for="airdropEmail" data-i18n="airdrop.email">Ваш Email:</label>
                             <input type="email" id="airdropEmail" required>
                         </div>
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" required> Я согласен с условиями программы
+                                <input type="checkbox" required> <span data-i18n="airdrop.terms">Я согласен с условиями программы</span>
                             </label>
                         </div>
-                        <button type="button" class="btn" id="claimAirdrop">Получить 50 USDT</button>
+                        <button type="button" class="btn" id="claimAirdrop" data-i18n="airdrop.claim">Получить 50 USDT</button>
                     </div>
                 </div>
                 
                 <div class="features" style="padding-top: 50px;">
-                    <h2 class="section-title">Как увеличить награду?</h2>
+                    <h2 class="section-title" data-i18n="airdrop.howToIncrease">Как увеличить награду?</h2>
                     <div class="features-grid">
                         <div class="feature-card">
                             <div class="feature-icon">
                                 <i class="fab fa-telegram"></i>
                             </div>
-                            <h3>Подписка на Telegram</h3>
-                            <p>Подпишитесь на наш Telegram-канал и получите дополнительно 10 USDT</p>
-                            <button class="btn" style="margin-top: 15px;">Подписаться</button>
+                            <h3 data-i18n="airdrop.telegram.title">Подписка на Telegram</h3>
+                            <p data-i18n="airdrop.telegram.desc">Подпишитесь на наш Telegram-канал и получите дополнительно 10 USDT</p>
+                            <button class="btn" style="margin-top: 15px;" data-i18n="airdrop.telegram.cta">Подписаться</button>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon">
                                 <i class="fab fa-twitter"></i>
                             </div>
-                            <h3>Ретвит в Twitter</h3>
-                            <p>Сделайте ретвит нашего сообщения и получите дополнительно 15 USDT</p>
-                            <button class="btn" style="margin-top: 15px;">Ретвитнуть</button>
+                            <h3 data-i18n="airdrop.twitter.title">Ретвит в Twitter</h3>
+                            <p data-i18n="airdrop.twitter.desc">Сделайте ретвит нашего сообщения и получите дополнительно 15 USDT</p>
+                            <button class="btn" style="margin-top: 15px;" data-i18n="airdrop.twitter.cta">Ретвитнуть</button>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon">
                                 <i class="fas fa-user-friends"></i>
                             </div>
-                            <h3>Пригласите друзей</h3>
-                            <p>Пригласите друзей и получите 5 USDT за каждого приглашенного</p>
-                            <button class="btn" style="margin-top: 15px;">Скопировать ссылку</button>
+                            <h3 data-i18n="airdrop.ref.title">Пригласите друзей</h3>
+                            <p data-i18n="airdrop.ref.desc">Пригласите друзей и получите 5 USDT за каждого приглашенного</p>
+                            <button class="btn" style="margin-top: 15px;" data-i18n="airdrop.ref.cta">Скопировать ссылку</button>
                         </div>
                     </div>
                 </div>
@@ -1550,56 +1630,56 @@
         <section id="contact" class="page">
             <div class="hero">
                 <div class="hero-content">
-                    <h1>Контакты</h3>
-                    <p>Свяжитесь с нашей поддержкой для получения дополнительной информации.</p>
+                    <h1 data-i18n="contact.title">Контакты</h3>
+                    <p data-i18n="contact.subtitle">Свяжитесь с нашей поддержкой для получения дополнительной информации.</p>
                 </div>
             </div>
             
             <section class="form-container">
-                <h2 class="section-title">Форма обратной связи</h2>
+                <h2 class="section-title" data-i18n="contact.form.title">Форма обратной связи</h2>
                 <form id="contactForm">
                     <div class="form-group">
-                        <label for="contactName">Ваше имя:</label>
+                        <label for="contactName" data-i18n="contact.form.name">Ваше имя:</label>
                         <input type="text" id="contactName" required>
                     </div>
                     <div class="form-group">
-                        <label for="contactEmail">Ваш Email:</label>
+                        <label for="contactEmail" data-i18n="contact.form.email">Ваш Email:</label>
                         <input type="email" id="contactEmail" required>
                     </div>
                     <div class="form-group">
-                        <label for="contactSubject">Тема:</label>
+                        <label for="contactSubject" data-i18n="contact.form.subject">Тема:</label>
                         <input type="text" id="contactSubject" required>
                     </div>
                     <div class="form-group">
-                        <label for="contactMessage">Сообщение:</label>
+                        <label for="contactMessage" data-i18n="contact.form.message">Сообщение:</label>
                         <textarea id="contactMessage" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn">Отправить сообщение</button>
+                    <button type="submit" class="btn" data-i18n="contact.form.submit">Отправить сообщение</button>
                 </form>
             </section>
             
             <section class="features" style="padding-top: 50px;">
-                <h2 class="section-title">Наши контакты</h2>
+                <h2 class="section-title" data-i18n="contact.info.title">Наши контакты</h2>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <h3>Email</h3>
+                        <h3 data-i18n="contact.info.email">Email</h3>
                         <p>support@cryptorichlife.com</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fab fa-telegram"></i>
                         </div>
-                        <h3>Telegram</h3>
+                        <h3 data-i18n="contact.info.telegram">Telegram</h3>
                         <p>@CryptoRichLife_Support</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fab fa-discord"></i>
                         </div>
-                        <h3>Discord</h3>
+                        <h3 data-i18n="contact.info.discord">Discord</h3>
                         <p>Присоединяйтесь к нашему сообществу</p>
                     </div>
                 </div>
@@ -1610,7 +1690,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">
-                <h3>О нас</h3>
+                <h3 data-i18n="footer.about">О нас</h3>
                 <ul class="footer-links">
                     <li><a href="#">Наша история</a></li>
                     <li><a href="#">Команда</a></li>
@@ -1618,7 +1698,7 @@
                 </ul>
             </div>
             <div class="footer-column">
-                <h3>Заработок</h3>
+                <h3 data-i18n="footer.earn">Заработок</h3>
                 <ul class="footer-links">
                     <li><a href="#">Стейкинг</a></li>
                     <li><a href="#">Майнинг</a></li>
@@ -1626,7 +1706,7 @@
                 </ul>
             </div>
             <div class="footer-column">
-                <h3>Поддержка</h3>
+                <h3 data-i18n="footer.support">Поддержка</h3>
                 <ul class="footer-links">
                     <li><a href="#">FAQ</a></li>
                     <li><a href="#">Контакты</a></li>
@@ -1635,13 +1715,225 @@
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2023 CryptoRichLife. Все права защищены</p>
+            <p>&copy; 2023 CryptoRichLife. <span data-i18n="footer.rights">Все права защищены</span></p>
         </div>
     </footer>
 
     <script>
         // Навигация между страницами
         document.addEventListener('DOMContentLoaded', function() {
+            // i18n словарь
+            const translations = {
+                ru: {
+                    nav: { home: 'Главная', earn: 'Заработок', reviews: 'Отзывы', wallet: 'Кошелек', airdrop: 'Аирдроп', contact: 'Контакты' },
+                    home: {
+                        hero: { title: 'Премиум жизнь с криптовалютой', subtitle: 'Зарабатывайте на криптовалюте и получите доступ к эксклюзивному образу жизни, о котором вы всегда мечтали.', cta: 'Начать зарабатывать' },
+                        airdrop: { title: 'Аирдроп: Получите 50 USDT за регистрацию!', subtitle: 'Присоединяйтесь к нашей программе и получите бесплатные USDT за выполнение простых заданий' },
+                        features: {
+                            title: 'Наши возможности',
+                            staking: { title: 'Премиум стейкинг', desc: 'Получайте до 45% годовых с нашими эксклюзивными предложениями по стейкингу для избранных клиентов.' },
+                            mining: { title: 'Элитный майнинг', desc: 'Доступ к эксклюзивным майнинг-пулам с минимальной комиссией и максимальной доходностью.' },
+                            trading: { title: 'VIP трейдинг', desc: 'Эксклюзивные торговые сигналы и стратегии от лучших трейдеров с многолетним опытом.' },
+                            arb: { title: 'Арбитраж', desc: 'Автоматический арбитраж между биржами с доходностью до 3% в день.' },
+                            savings: { title: 'Сберегательные счета', desc: 'Высокие проценты на крипто-депозиты с ежедневной капитализацией.' },
+                            lending: { title: 'Кредитование', desc: 'Зарабатывайте на процентах, предоставляя кредиты другим трейдерам.' }
+                        },
+                        luxury: { title: 'Жизнь мечты' }
+                    },
+                    airdrop: {
+                        title: 'Аирдроп программа', subtitle: 'Получите бесплатные USDT за регистрацию и выполнение простых заданий!', get50: 'Получите 50 USDT за регистрацию', countdownLabel: 'До конца акции:', progressText: '65% токенов уже распределено', participate: 'Участвуйте в аирдропе', connectPrompt: 'Для участия в аирдропе подключите ваш кошелек', howToIncrease: 'Как увеличить награду?',
+                        telegram: { title: 'Подписка на Telegram', desc: 'Подпишитесь на наш Telegram-канал и получите дополнительно 10 USDT', cta: 'Подписаться' },
+                        twitter: { title: 'Ретвит в Twitter', desc: 'Сделайте ретвит нашего сообщения и получите дополнительно 15 USDT', cta: 'Ретвитнуть' },
+                        ref: { title: 'Пригласите друзей', desc: 'Пригласите друзей и получите 5 USDT за каждого приглашенного', cta: 'Скопировать ссылку' },
+                        email: 'Ваш Email:', terms: 'Я согласен с условиями программы', claim: 'Получить 50 USDT'
+                    },
+                    wallet: {
+                        title: 'Подключение кошелька', subtitle: 'Подключите ваш криптокошелек для начала работы с нашей платформой.', supported: 'Поддерживаемые кошельки', connect: 'Подключение кошелька', chooseMethod: 'Выберите способ подключения:', metamask: 'MetaMask', walletconnect: 'WalletConnect', info: 'Информация о кошельке', address: 'Адрес:', balance: 'Баланс:', network: 'Сеть:', disconnect: 'Отключить кошелек', connected: 'Кошелек подключен!', connectPrompt: 'Для участия подключите ваш кошелек', connectMetaMask: 'Подключить MetaMask'
+                    },
+                    earn: { title: 'Способы заработка', subtitle: 'Выберите подходящий для вас метод заработка криптовалюты и начните свой путь к финансовой свободе.', methods: { title: 'Доступные методы' }, form: { title: 'Выбор метода заработка', methodLabel: 'Выберите метод заработка:', choose: '-- Выберите метод --', amountLabel: 'Сумма инвестиций (USDT):', walletLabel: 'Тип кошелька:', chooseWallet: '-- Выберите кошелек --', submit: 'Начать зарабатывать' } },
+                    reviews: { title: 'Отзывы клиентов', subtitle: 'Реальные истории успеха наших клиентов со всего мира, которые уже достигли финансовой свободы.', successStories: 'Истории успеха', form: { title: 'Оставьте свой отзыв', name: 'Ваше имя:', age: 'Ваш возраст:', country: 'Ваша страна:', experience: 'Ваш опыт заработка:', rating: 'Оценка:', chooseRating: '-- Выберите оценку --', stars5: '5 звезд', stars4: '4 звезды', stars3: '3 звезды', stars2: '2 звезды', stars1: '1 звезда', submit: 'Отправить отзыв' } },
+                    contact: { title: 'Контакты', subtitle: 'Свяжитесь с нашей поддержкой для получения дополнительной информации.', form: { title: 'Форма обратной связи', name: 'Ваше имя:', email: 'Ваш Email:', subject: 'Тема:', message: 'Сообщение:', submit: 'Отправить сообщение' }, info: { title: 'Наши контакты', email: 'Email', telegram: 'Telegram', discord: 'Discord' } },
+                    footer: { about: 'О нас', earn: 'Заработок', support: 'Поддержка', rights: 'Все права защищены' },
+                    alerts: {
+                        earnSubmitted: 'Ваша заявка на заработок принята! С вами свяжется наш специалист.',
+                        reviewSubmitted: 'Спасибо за ваш отзыв! Он будет опубликован после модерации.',
+                        contactSent: 'Ваше сообщение отправлено! Мы ответим вам в течение 24 часов.',
+                        walletConnected: (w) => `Кошелек ${w} успешно подключен!`,
+                        walletError: 'Произошла ошибка при подключении кошелька. Убедитесь, что кошелек установлен и разблокирован.',
+                        metamaskMissing: 'MetaMask не установлен. Пожалуйста, установите MetaMask для подключения кошелька.',
+                        airdropRequested: 'Заявка на участие в аирдропе принята! 50 USDT будут начислены на ваш кошелек в течение 24 часов.',
+                        enterEmail: 'Пожалуйста, введите ваш email',
+                        walletDisconnected: 'Кошелек отключен'
+                    }
+                },
+                en: {
+                    nav: { home: 'Home', earn: 'Earn', reviews: 'Reviews', wallet: 'Wallet', airdrop: 'Airdrop', contact: 'Contact' },
+                    home: {
+                        hero: { title: 'A premium life with crypto', subtitle: 'Earn with crypto and unlock the exclusive lifestyle you always dreamed of.', cta: 'Start earning' },
+                        airdrop: { title: 'Airdrop: Get 50 USDT for signing up!', subtitle: 'Join our program and receive free USDT for simple tasks' },
+                        features: {
+                            title: 'Our features',
+                            staking: { title: 'Premium staking', desc: 'Earn up to 45% APY with our exclusive staking offers for selected clients.' },
+                            mining: { title: 'Elite mining', desc: 'Access exclusive mining pools with minimal fees and maximum returns.' },
+                            trading: { title: 'VIP trading', desc: 'Exclusive trading signals and strategies from top traders with years of experience.' },
+                            arb: { title: 'Arbitrage', desc: 'Automated arbitrage across exchanges with returns up to 3% per day.' },
+                            savings: { title: 'Savings accounts', desc: 'High interest on crypto deposits with daily compounding.' },
+                            lending: { title: 'Lending', desc: 'Earn interest by lending to other traders.' }
+                        },
+                        luxury: { title: 'Dream life' }
+                    },
+                    airdrop: {
+                        title: 'Airdrop program', subtitle: 'Get free USDT for signing up and completing simple tasks!', get50: 'Get 50 USDT for signing up', countdownLabel: 'Ends in:', progressText: '65% of tokens already distributed', participate: 'Join the airdrop', connectPrompt: 'Connect your wallet to participate', howToIncrease: 'How to increase your reward?',
+                        telegram: { title: 'Join Telegram', desc: 'Subscribe to our Telegram channel and get extra 10 USDT', cta: 'Subscribe' },
+                        twitter: { title: 'Retweet on Twitter', desc: 'Retweet our post and get extra 15 USDT', cta: 'Retweet' },
+                        ref: { title: 'Invite friends', desc: 'Invite friends and get 5 USDT per invite', cta: 'Copy link' },
+                        email: 'Your Email:', terms: 'I agree to the program terms', claim: 'Claim 50 USDT'
+                    },
+                    wallet: {
+                        title: 'Wallet connection', subtitle: 'Connect your crypto wallet to start using our platform.', supported: 'Supported wallets', connect: 'Connect wallet', chooseMethod: 'Choose connection method:', metamask: 'MetaMask', walletconnect: 'WalletConnect', info: 'Wallet info', address: 'Address:', balance: 'Balance:', network: 'Network:', disconnect: 'Disconnect wallet', connected: 'Wallet connected!', connectPrompt: 'Connect your wallet to participate', connectMetaMask: 'Connect MetaMask'
+                    },
+                    earn: { title: 'Ways to earn', subtitle: 'Choose your preferred way to earn crypto and start your path to financial freedom.', methods: { title: 'Available methods' }, form: { title: 'Choose earning method', methodLabel: 'Select earning method:', choose: '-- Select method --', amountLabel: 'Investment amount (USDT):', walletLabel: 'Wallet type:', chooseWallet: '-- Select wallet --', submit: 'Start earning' } },
+                    reviews: { title: 'Customer reviews', subtitle: 'Real success stories from our customers worldwide who achieved financial freedom.', successStories: 'Success stories', form: { title: 'Leave your review', name: 'Your name:', age: 'Your age:', country: 'Your country:', experience: 'Your earning experience:', rating: 'Rating:', chooseRating: '-- Select rating --', stars5: '5 stars', stars4: '4 stars', stars3: '3 stars', stars2: '2 stars', stars1: '1 star', submit: 'Submit review' } },
+                    contact: { title: 'Contacts', subtitle: 'Reach out to our support for more information.', form: { title: 'Contact form', name: 'Your name:', email: 'Your Email:', subject: 'Subject:', message: 'Message:', submit: 'Send message' }, info: { title: 'Our contacts', email: 'Email', telegram: 'Telegram', discord: 'Discord' } },
+                    footer: { about: 'About', earn: 'Earn', support: 'Support', rights: 'All rights reserved' },
+                    alerts: {
+                        earnSubmitted: 'Your earning request has been received! Our specialist will contact you.',
+                        reviewSubmitted: 'Thanks for your review! It will be published after moderation.',
+                        contactSent: 'Your message has been sent! We will reply within 24 hours.',
+                        walletConnected: (w) => `Wallet ${w} connected successfully!`,
+                        walletError: 'Error connecting wallet. Make sure the wallet is installed and unlocked.',
+                        metamaskMissing: 'MetaMask is not installed. Please install MetaMask to connect.',
+                        airdropRequested: 'Airdrop request received! 50 USDT will be credited within 24 hours.',
+                        enterEmail: 'Please enter your email',
+                        walletDisconnected: 'Wallet disconnected'
+                    }
+                },
+                es: {
+                    nav: { home: 'Inicio', earn: 'Ganar', reviews: 'Reseñas', wallet: 'Billetera', airdrop: 'Airdrop', contact: 'Contacto' },
+                    home: {
+                        hero: { title: 'Vida premium con criptomonedas', subtitle: 'Gana con cripto y accede al estilo de vida exclusivo con el que siempre soñaste.', cta: 'Comenzar a ganar' },
+                        airdrop: { title: 'Airdrop: ¡Obtén 50 USDT por registrarte!', subtitle: 'Únete a nuestro programa y recibe USDT gratis por tareas simples' },
+                        features: {
+                            title: 'Nuestras funciones',
+                            staking: { title: 'Staking premium', desc: 'Gana hasta 45% APY con nuestras ofertas exclusivas de staking.' },
+                            mining: { title: 'Minería élite', desc: 'Acceso a pools de minería exclusivos con comisiones mínimas y máximo rendimiento.' },
+                            trading: { title: 'Trading VIP', desc: 'Señales y estrategias exclusivas de traders expertos.' },
+                            arb: { title: 'Arbitraje', desc: 'Arbitraje automatizado entre exchanges con retornos hasta 3% diario.' },
+                            savings: { title: 'Cuentas de ahorro', desc: 'Altos intereses en depósitos cripto con capitalización diaria.' },
+                            lending: { title: 'Préstamos', desc: 'Gana interés prestando a otros traders.' }
+                        },
+                        luxury: { title: 'Vida de ensueño' }
+                    },
+                    airdrop: {
+                        title: 'Programa de airdrop', subtitle: '¡Obtén USDT gratis por registrarte y completar tareas simples!', get50: 'Obtén 50 USDT por registrarte', countdownLabel: 'Termina en:', progressText: '65% de los tokens ya distribuidos', participate: 'Participa en el airdrop', connectPrompt: 'Conecta tu billetera para participar', howToIncrease: '¿Cómo aumentar tu recompensa?',
+                        telegram: { title: 'Únete a Telegram', desc: 'Suscríbete a nuestro canal de Telegram y recibe 10 USDT extra', cta: 'Suscribirse' },
+                        twitter: { title: 'Retuitea en Twitter', desc: 'Retuitea nuestro post y recibe 15 USDT extra', cta: 'Retuitear' },
+                        ref: { title: 'Invita amigos', desc: 'Invita amigos y recibe 5 USDT por cada invitado', cta: 'Copiar enlace' },
+                        email: 'Tu Email:', terms: 'Acepto los términos del programa', claim: 'Reclamar 50 USDT'
+                    },
+                    wallet: {
+                        title: 'Conexión de billetera', subtitle: 'Conecta tu billetera cripto para usar la plataforma.', supported: 'Billeteras soportadas', connect: 'Conectar billetera', chooseMethod: 'Elige el método de conexión:', metamask: 'MetaMask', walletconnect: 'WalletConnect', info: 'Información de la billetera', address: 'Dirección:', balance: 'Balance:', network: 'Red:', disconnect: 'Desconectar billetera', connected: '¡Billetera conectada!', connectPrompt: 'Conecta tu billetera para participar', connectMetaMask: 'Conectar MetaMask'
+                    },
+                    earn: { title: 'Formas de ganar', subtitle: 'Elige tu forma preferida de ganar cripto y comienza tu camino hacia la libertad financiera.', methods: { title: 'Métodos disponibles' }, form: { title: 'Elegir método de ganar', methodLabel: 'Selecciona el método de ganar:', choose: '-- Selecciona método --', amountLabel: 'Monto de inversión (USDT):', walletLabel: 'Tipo de billetera:', chooseWallet: '-- Selecciona billetera --', submit: 'Comenzar a ganar' } },
+                    reviews: { title: 'Reseñas de clientes', subtitle: 'Historias reales de éxito de nuestros clientes en todo el mundo.', successStories: 'Historias de éxito', form: { title: 'Deja tu reseña', name: 'Tu nombre:', age: 'Tu edad:', country: 'Tu país:', experience: 'Tu experiencia de ganancias:', rating: 'Calificación:', chooseRating: '-- Selecciona calificación --', stars5: '5 estrellas', stars4: '4 estrellas', stars3: '3 estrellas', stars2: '2 estrellas', stars1: '1 estrella', submit: 'Enviar reseña' } },
+                    contact: { title: 'Contacto', subtitle: 'Comunícate con nuestro soporte para más información.', form: { title: 'Formulario de contacto', name: 'Tu nombre:', email: 'Tu Email:', subject: 'Asunto:', message: 'Mensaje:', submit: 'Enviar mensaje' }, info: { title: 'Nuestros contactos', email: 'Email', telegram: 'Telegram', discord: 'Discord' } },
+                    footer: { about: 'Sobre nosotros', earn: 'Ganar', support: 'Soporte', rights: 'Todos los derechos reservados' },
+                    alerts: {
+                        earnSubmitted: '¡Hemos recibido tu solicitud de ganancias! Nuestro especialista te contactará.',
+                        reviewSubmitted: '¡Gracias por tu reseña! Se publicará tras la moderación.',
+                        contactSent: '¡Mensaje enviado! Responderemos dentro de 24 horas.',
+                        walletConnected: (w) => `¡Billetera ${w} conectada con éxito!`,
+                        walletError: 'Error al conectar la billetera. Asegúrate de que esté instalada y desbloqueada.',
+                        metamaskMissing: 'MetaMask no está instalado. Por favor instálalo para conectar.',
+                        airdropRequested: '¡Solicitud de airdrop recibida! 50 USDT se acreditarán en 24 horas.',
+                        enterEmail: 'Por favor, ingresa tu correo',
+                        walletDisconnected: 'Billetera desconectada'
+                    }
+                },
+                sw: {
+                    nav: { home: 'Nyumbani', earn: 'Pata', reviews: 'Maoni', wallet: 'Wallet', airdrop: 'Airdrop', contact: 'Mawasiliano' },
+                    home: {
+                        hero: { title: 'Maisha ya kifahari na crypto', subtitle: 'Pata kipato kwa crypto na ufungue mtindo wa maisha wa kipekee uliouota.', cta: 'Anza kupata' },
+                        airdrop: { title: 'Airdrop: Pata 50 USDT kwa kujisajili!', subtitle: 'Jiunge na programu yetu upokee USDT bure kwa kazi rahisi' },
+                        features: {
+                            title: 'Vipengele vyetu',
+                            staking: { title: 'Staking ya premium', desc: 'Pata hadi 45% APY kwa ofa zetu za kipekee za staking.' },
+                            mining: { title: 'Uchimbaji wa daraja la juu', desc: 'Ufikiaji wa pools za uchimbaji zenye ada ndogo na mapato makubwa.' },
+                            trading: { title: 'Uuzaji wa VIP', desc: 'Ishara na mikakati ya kipekee kutoka kwa wafanyabiashara bingwa.' },
+                            arb: { title: 'Arbitrage', desc: 'Arbitrage otomatiki kati ya exchanges na mapato hadi 3% kwa siku.' },
+                            savings: { title: 'Akaunti za akiba', desc: 'Riba kubwa kwenye amana za crypto zenye kuongezewa kila siku.' },
+                            lending: { title: 'Utoaji mikopo', desc: 'Pata riba kwa kukopesha wafanyabiashara wengine.' }
+                        },
+                        luxury: { title: 'Maisha ya ndoto' }
+                    },
+                    airdrop: {
+                        title: 'Mpango wa airdrop', subtitle: 'Pata USDT bure kwa kujisajili na kukamilisha kazi rahisi!', get50: 'Pata 50 USDT kwa kujisajili', countdownLabel: 'Inaisha baada ya:', progressText: '65% ya tokeni tayari zimesambazwa', participate: 'Shiriki kwenye airdrop', connectPrompt: 'Unganisha wallet yako kushiriki', howToIncrease: 'Jinsi ya kuongeza zawadi yako?',
+                        telegram: { title: 'Jiunge Telegram', desc: 'Jisajili kwenye chaneli yetu ya Telegram upate 10 USDT zaidi', cta: 'Jisajili' },
+                        twitter: { title: 'Retweet kwenye Twitter', desc: 'Retweet chapisho letu upate 15 USDT zaidi', cta: 'Retweet' },
+                        ref: { title: 'Alika marafiki', desc: 'Alika marafiki upate 5 USDT kwa kila mwaliko', cta: 'Nakili kiungo' },
+                        email: 'Barua pepe yako:', terms: 'Nakubali masharti ya programu', claim: 'Dai 50 USDT'
+                    },
+                    wallet: {
+                        title: 'Muunganiko wa wallet', subtitle: 'Unganisha wallet yako ya crypto kuanza kutumia jukwaa letu.', supported: 'Wallet zinazoangaliwa', connect: 'Unganisha wallet', chooseMethod: 'Chagua njia ya kuunganisha:', metamask: 'MetaMask', walletconnect: 'WalletConnect', info: 'Taarifa za wallet', address: 'Anuani:', balance: 'Salio:', network: 'Mtandao:', disconnect: 'Katiza wallet', connected: 'Wallet imeunganishwa!', connectPrompt: 'Unganisha wallet yako kushiriki', connectMetaMask: 'Unganisha MetaMask'
+                    },
+                    earn: { title: 'Njia za kupata', subtitle: 'Chagua njia unayoipenda ya kupata crypto na uanze safari ya uhuru wa kifedha.', methods: { title: 'Njia zinazopatikana' }, form: { title: 'Chagua njia ya mapato', methodLabel: 'Chagua njia ya kupata:', choose: '-- Chagua njia --', amountLabel: 'Kiasi cha uwekezaji (USDT):', walletLabel: 'Aina ya wallet:', chooseWallet: '-- Chagua wallet --', submit: 'Anza kupata' } },
+                    reviews: { title: 'Maoni ya wateja', subtitle: 'Hadithi halisi za mafanikio kutoka kwa wateja wetu duniani kote.', successStories: 'Hadithi za mafanikio', form: { title: 'Acha maoni yako', name: 'Jina lako:', age: 'Umri wako:', country: 'Nchi yako:', experience: 'Uzoefu wako wa mapato:', rating: 'Kiwango:', chooseRating: '-- Chagua kiwango --', stars5: 'Nyota 5', stars4: 'Nyota 4', stars3: 'Nyota 3', stars2: 'Nyota 2', stars1: 'Nyota 1', submit: 'Tuma maoni' } },
+                    contact: { title: 'Mawasiliano', subtitle: 'Wasiliana na usaidizi wetu kwa maelezo zaidi.', form: { title: 'Fomu ya mawasiliano', name: 'Jina lako:', email: 'Barua pepe yako:', subject: 'Mada:', message: 'Ujumbe:', submit: 'Tuma ujumbe' }, info: { title: 'Mawasiliano yetu', email: 'Barua pepe', telegram: 'Telegram', discord: 'Discord' } },
+                    footer: { about: 'Kuhusu', earn: 'Pata', support: 'Usaidizi', rights: 'Haki zote zimehifadhiwa' },
+                    alerts: {
+                        earnSubmitted: 'Ombi lako la mapato limepokelewa! Mtaalam wetu atawasiliana nawe.',
+                        reviewSubmitted: 'Asante kwa maoni yako! Yatachapishwa baada ya uhakiki.',
+                        contactSent: 'Ujumbe wako umetumwa! Tutajibu ndani ya saa 24.',
+                        walletConnected: (w) => `Wallet ${w} imeunganishwa kwa mafanikio!`,
+                        walletError: 'Hitilafu kuunganisha wallet. Hakikisha imewekwa na kufunguliwa.',
+                        metamaskMissing: 'MetaMask haijasakinishwa. Tafadhali sakinisha ili kuunganisha.',
+                        airdropRequested: 'Ombi la airdrop limepokelewa! 50 USDT zitawekwa ndani ya saa 24.',
+                        enterEmail: 'Tafadhali ingiza barua pepe yako',
+                        walletDisconnected: 'Wallet imetenganishwa'
+                    }
+                }
+            };
+
+            function t(key) {
+                const lang = localStorage.getItem('lang') || 'ru';
+                const parts = key.split('.');
+                let cur = translations[lang];
+                for (const part of parts) {
+                    if (!cur) break;
+                    cur = cur[part];
+                }
+                return typeof cur === 'string' ? cur : key;
+            }
+
+            function applyTranslations() {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    const val = t(key);
+                    if (val && el) {
+                        el.textContent = val;
+                    }
+                });
+                // Update document lang and title
+                const lang = localStorage.getItem('lang') || 'ru';
+                document.documentElement.setAttribute('lang', lang);
+                // Keep original brand, just set title part
+                const base = 'CryptoRichLife - ';
+                const map = { ru: 'Премиум заработок в криптовалюте', en: 'Premium crypto earnings', es: 'Ganancias cripto premium', sw: 'Mapato ya crypto ya kiwango cha juu' };
+                document.title = base + (map[lang] || map['ru']);
+            }
+
+            const langSelect = document.getElementById('languageSelect');
+            if (langSelect) {
+                const savedLang = localStorage.getItem('lang') || 'ru';
+                langSelect.value = savedLang;
+                langSelect.addEventListener('change', () => {
+                    localStorage.setItem('lang', langSelect.value);
+                    applyTranslations();
+                });
+            }
+
+            // Применить переводы при загрузке
+            applyTranslations();
             const navLinks = document.querySelectorAll('.nav-link');
             const pages = document.querySelectorAll('.page');
             
@@ -1688,18 +1980,18 @@
             // Обработчики для форм
             document.getElementById('earnForm')?.addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('Ваша заявка на заработок принята! С вами свяжется наш специалист.');
+                alert(translations[localStorage.getItem('lang')||'ru'].alerts.earnSubmitted);
                 showPage('reviews');
             });
             
             document.getElementById('reviewForm')?.addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('Спасибо за ваш отзыв! Он будет опубликован после модерации.');
+                alert(translations[localStorage.getItem('lang')||'ru'].alerts.reviewSubmitted);
             });
             
             document.getElementById('contactForm')?.addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('Ваше сообщение отправлено! Мы ответим вам в течение 24 часов.');
+                alert(translations[localStorage.getItem('lang')||'ru'].alerts.contactSent);
             });
             
             // Обработчики для карточек кошельков
@@ -1727,11 +2019,10 @@
             document.getElementById('claimAirdrop')?.addEventListener('click', function() {
                 const email = document.getElementById('airdropEmail').value;
                 if (!email) {
-                    alert('Пожалуйста, введите ваш email');
+                    alert(translations[localStorage.getItem('lang')||'ru'].alerts.enterEmail);
                     return;
                 }
-                
-                alert('Заявка на участие в аирдропе принята! 50 USDT будут начислены на ваш кошелек в течение 24 часов.');
+                alert(translations[localStorage.getItem('lang')||'ru'].alerts.airdropRequested);
             });
             
             // Отключение кошелька
@@ -1740,7 +2031,7 @@
                 document.querySelectorAll('.wallet-card').forEach(c => {
                     c.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                 });
-                alert('Кошелек отключен');
+                alert(translations[localStorage.getItem('lang')||'ru'].alerts.walletDisconnected);
             });
             
             // Таймер обратного отсчета для аирдропа
@@ -1771,24 +2062,47 @@
             
             // Функция подключения кошелька
             async function connectWallet(walletType, context = 'main') {
-                // Проверяем, установлен ли MetaMask
-                if (typeof window.ethereum !== 'undefined') {
-                    try {
-                        // Запрашиваем подключение аккаунтов
-                        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                        const account = accounts[0];
-                        
-                        // Получаем баланс
-                        const balance = await window.ethereum.request({ 
-                            method: 'eth_getBalance', 
-                            params: [account, 'latest'] 
-                        });
-                        
-                        // Конвертируем баланс из wei в ETH
-                        const balanceInEth = parseInt(balance) / 1e18;
-                        
-                        // Получаем информацию о сети
-                        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                const lang = localStorage.getItem('lang') || 'ru';
+                // Web3Modal for WalletConnect support
+                const providerOptions = {
+                    walletconnect: {
+                        package: window.WalletConnectProvider?.default || window.WalletConnectProvider,
+                        options: {
+                            rpc: {
+                                1: 'https://rpc.ankr.com/eth',
+                                137: 'https://rpc.ankr.com/polygon'
+                            }
+                        }
+                    }
+                };
+                const Web3ModalCtor = (window.Web3Modal && (window.Web3Modal.default || window.Web3Modal)) || null;
+                const web3Modal = Web3ModalCtor ? new Web3ModalCtor({
+                    cacheProvider: false,
+                    providerOptions
+                }) : null;
+
+                // Prefer explicit wallet type
+                let provider = null;
+                try {
+                    if (walletType === 'walletconnect') {
+                        provider = await web3Modal.connectTo('walletconnect');
+                    } else if (walletType === 'metamask' && typeof window.ethereum !== 'undefined') {
+                        provider = window.ethereum;
+                        await provider.request({ method: 'eth_requestAccounts' });
+                    } else if (typeof window.ethereum !== 'undefined') {
+                        provider = window.ethereum;
+                        await provider.request({ method: 'eth_requestAccounts' });
+                    } else {
+                        alert(translations[lang].alerts.metamaskMissing);
+                        window.open('https://metamask.io/download.html', '_blank');
+                        return;
+                    }
+
+                    const accounts = await provider.request({ method: 'eth_accounts' });
+                    const account = accounts[0];
+                    const balanceHex = await provider.request({ method: 'eth_getBalance', params: [account, 'latest'] });
+                    const balanceInEth = parseInt(balanceHex, 16) / 1e18;
+                    const chainId = await provider.request({ method: 'eth_chainId' });
                         let networkName = 'Unknown';
                         
                         switch (chainId) {
@@ -1843,16 +2157,11 @@
                         if (selectedCard) {
                             selectedCard.style.borderColor = 'var(--accent)';
                         }
-                        
-                        alert(`Кошелек ${walletType} успешно подключен!`);
-                        
-                    } catch (error) {
-                        console.error(error);
-                        alert('Произошла ошибка при подключении кошелька. Убедитесь, что MetaMask установлен и разблокирован.');
-                    }
-                } else {
-                    alert('MetaMask не установлен. Пожалуйста, установите MetaMask для подключения кошелька.');
-                    window.open('https://metamask.io/download.html', '_blank');
+                        alert(translations[lang].alerts.walletConnected(walletType));
+
+                } catch (error) {
+                    console.error(error);
+                    alert(translations[lang].alerts.walletError);
                 }
             }
             
@@ -1863,7 +2172,7 @@
             
             // Обработчик для кнопки получения аирдропа на главной
             document.getElementById('claimAirdropBtn').addEventListener('click', function() {
-                alert('Заявка на участие в аирдропе принята! 50 USDT будут начислены на ваш кошелек в течение 24 часов.');
+                alert(translations[localStorage.getItem('lang')||'ru'].alerts.airdropRequested);
             });
         });
     </script>
